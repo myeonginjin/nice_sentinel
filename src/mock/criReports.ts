@@ -1,0 +1,95 @@
+import type { CriReport } from '@/types';
+
+export const criMock: Record<string, CriReport> = {
+  '123-45-67890': {
+    source: 'NICE_DNB',
+    criGrade: 'BBB',
+    trend: [
+      { date: '2026-01', grade: 'BBB+', score: 72 },
+      { date: '2026-02', grade: 'BBB+', score: 71 },
+      { date: '2026-03', grade: 'BBB', score: 69 },
+      { date: '2026-04', grade: 'BBB', score: 70 },
+      { date: '2026-05', grade: 'BBB', score: 70 },
+      { date: '2026-06', grade: 'BBB', score: 70 },
+    ],
+    updatedAt: '2026-06-10T00:00:00Z',
+  },
+  '234-56-78901': {
+    source: 'NICE_DNB',
+    criGrade: 'BB-',
+    trend: [
+      { date: '2026-01', grade: 'BB', score: 55 },
+      { date: '2026-02', grade: 'BB', score: 53 },
+      { date: '2026-03', grade: 'BB-', score: 50 },
+      { date: '2026-04', grade: 'BB-', score: 48 },
+      { date: '2026-05', grade: 'BB-', score: 46 },
+      { date: '2026-06', grade: 'BB-', score: 44 },
+    ],
+    updatedAt: '2026-06-10T00:00:00Z',
+  },
+  '345-67-89012': {
+    source: 'NICE_DNB',
+    criGrade: 'BBB-',
+    trend: [
+      { date: '2026-01', grade: 'BBB', score: 67 },
+      { date: '2026-02', grade: 'BBB-', score: 65 },
+      { date: '2026-03', grade: 'BBB-', score: 63 },
+      { date: '2026-04', grade: 'BBB-', score: 63 },
+      { date: '2026-05', grade: 'BBB-', score: 62 },
+      { date: '2026-06', grade: 'BBB-', score: 62 },
+    ],
+    updatedAt: '2026-06-10T00:00:00Z',
+  },
+  '456-78-90123': {
+    source: 'NICE_DNB',
+    criGrade: 'A-',
+    trend: [
+      { date: '2026-01', grade: 'A', score: 82 },
+      { date: '2026-02', grade: 'A', score: 81 },
+      { date: '2026-03', grade: 'A-', score: 80 },
+      { date: '2026-04', grade: 'A-', score: 80 },
+      { date: '2026-05', grade: 'A-', score: 80 },
+      { date: '2026-06', grade: 'A-', score: 80 },
+    ],
+    updatedAt: '2026-06-10T00:00:00Z',
+  },
+  '567-89-01234': {
+    source: 'NICE_DNB',
+    criGrade: 'CC',
+    trend: [
+      { date: '2026-01', grade: 'BB-', score: 46 },
+      { date: '2026-02', grade: 'B+', score: 40 },
+      { date: '2026-03', grade: 'B', score: 35 },
+      { date: '2026-04', grade: 'B-', score: 30 },
+      { date: '2026-05', grade: 'CCC', score: 24 },
+      { date: '2026-06', grade: 'CC', score: 18 },
+    ],
+    updatedAt: '2026-06-10T00:00:00Z',
+  },
+  '678-90-12345': {
+    source: 'NICE_DNB',
+    criGrade: 'BB',
+    trend: [
+      { date: '2026-01', grade: 'BB+', score: 58 },
+      { date: '2026-02', grade: 'BB', score: 56 },
+      { date: '2026-03', grade: 'BB', score: 55 },
+      { date: '2026-04', grade: 'BB', score: 55 },
+      { date: '2026-05', grade: 'BB', score: 54 },
+      { date: '2026-06', grade: 'BB', score: 54 },
+    ],
+    updatedAt: '2026-06-10T00:00:00Z',
+  },
+  '789-01-23456': {
+    source: 'NICE_DNB',
+    criGrade: 'B',
+    trend: [
+      { date: '2026-01', grade: 'B+', score: 42 },
+      { date: '2026-02', grade: 'B+', score: 40 },
+      { date: '2026-03', grade: 'B', score: 38 },
+      { date: '2026-04', grade: 'B', score: 37 },
+      { date: '2026-05', grade: 'B', score: 36 },
+      { date: '2026-06', grade: 'B', score: 36 },
+    ],
+    updatedAt: '2026-06-10T00:00:00Z',
+  },
+};

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create *)",
+      "Bash(cp -r /tmp/nice-sentinel-tmp/. /Users/jinmyeong-in/Desktop/NICEsentinel/ && ls /Users/jinmyeong-in/Desktop/NICEsentinel/)",
+      "Bash(npm install *)"
+    ]
+  }
+}
