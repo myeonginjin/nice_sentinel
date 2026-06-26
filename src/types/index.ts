@@ -73,7 +73,16 @@ export interface RiskAssessment {
   aiReport: string;           // LLM 종합 리포트(자연어)
 }
 
-// 사후 모니터링
+// 사후 모니터링 — 계약 가맹점
+export interface MonitoringMerchant {
+  id: string;
+  bizName: string;
+  bizNo: string;
+  type: MerchantType;
+  currentGrade: string;
+  riskGrade: RiskGrade;
+}
+
 export type AlertType = 'CREDIT_DROP' | 'REFUND_SPIKE' | 'PATTERN_SHIFT' | 'PG_SWITCH';
 export interface MonitoringAlert {
   id: string;

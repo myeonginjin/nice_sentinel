@@ -12,10 +12,8 @@ import {
   alertTypeIcon,
   scoreToGrade,
 } from '@/lib/gradeUtils';
-import { getMerchants } from '@/services';
-import { getAlerts } from '@/services';
-import { assessmentMock } from '@/mock';
-import type { Merchant, MonitoringAlert } from '@/types';
+import { getMerchants, getAlerts, getAssessments } from '@/services';
+import type { Merchant, MonitoringAlert, RiskAssessment } from '@/types';
 
 const RISK_COLORS = { LOW: '#10b981', MEDIUM: '#f59e0b', HIGH: '#ef4444' };
 
@@ -23,10 +21,12 @@ export default function Dashboard() {
   const nav = useNavigate();
   const [merchants, setMerchants] = useState<Merchant[]>([]);
   const [alerts, setAlerts] = useState<MonitoringAlert[]>([]);
+  const [assessments, setAssessments] = useState<Record<string, RiskAssessment>>({});
 
   useEffect(() => {
     getMerchants().then(setMerchants);
     getAlerts().then(setAlerts);
+    getAssessments().then(setAssessments);
   }, []);
 
   const decided = merchants.filter((m) => m.status === 'DECIDED');
@@ -36,7 +36,7 @@ export default function Dashboard() {
   const riskDist = (() => {
     const counts = { LOW: 0, MEDIUM: 0, HIGH: 0 };
     decided.forEach((m) => {
-      const a = assessmentMock[m.id];
+      const a = assessments[m.id];
       if (a) counts[scoreToGrade(a.score)]++;
     });
     return [
@@ -197,7 +197,7 @@ export default function Dashboard() {
             </thead>
             <tbody>
               {decided.map((m) => {
-                const a = assessmentMock[m.id];
+                const a = assessments[m.id];
                 if (!a) return null;
                 const gc = riskGradeColor(a.grade);
                 const rc = recommendationColor(a.recommendation);

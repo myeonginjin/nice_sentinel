@@ -4,9 +4,8 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart,
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Sparkline } from '@/components/Sparkline';
 import { riskGradeColor, riskGradeLabel, alertTypeLabel, alertTypeIcon } from '@/lib/gradeUtils';
-import { getAlerts, getTimeseries } from '@/services';
-import { monitoringMerchants } from '@/mock';
-import type { MonitoringAlert, MerchantTimeseries } from '@/types';
+import { getAlerts, getTimeseries, getMonitoringMerchants } from '@/services';
+import type { MonitoringAlert, MerchantTimeseries, MonitoringMerchant } from '@/types';
 
 const ALERT_ICONS: Record<string, React.ReactNode> = {
   CREDIT_DROP: <TrendingDown className="w-4 h-4" />,
@@ -17,14 +16,18 @@ const ALERT_ICONS: Record<string, React.ReactNode> = {
 
 export default function Monitoring() {
   const [alerts, setAlerts] = useState<MonitoringAlert[]>([]);
+  const [merchants, setMerchants] = useState<MonitoringMerchant[]>([]);
   const [selected, setSelected] = useState<string>('MON-B');
   const [ts, setTs] = useState<MerchantTimeseries>();
 
-  useEffect(() => { getAlerts().then(setAlerts); }, []);
+  useEffect(() => {
+    getAlerts().then(setAlerts);
+    getMonitoringMerchants().then(setMerchants);
+  }, []);
   useEffect(() => { getTimeseries(selected).then((t) => t && setTs(t)); }, [selected]);
 
   const highCount = alerts.filter((a) => a.severity === 'HIGH').length;
-  const selectedMerchant = monitoringMerchants.find((m) => m.id === selected);
+  const selectedMerchant = merchants.find((m) => m.id === selected);
   const selectedAlerts = alerts.filter((a) => a.merchantId === selected);
 
   return (
@@ -39,7 +42,7 @@ export default function Monitoring() {
         <Card>
           <CardContent className="pt-4">
             <p className="text-xs text-gray-500">모니터링 가맹점</p>
-            <p className="text-3xl font-bold text-gray-900 mt-1">{monitoringMerchants.length}개사</p>
+            <p className="text-3xl font-bold text-gray-900 mt-1">{merchants.length}개사</p>
           </CardContent>
         </Card>
         <Card>
@@ -64,7 +67,7 @@ export default function Monitoring() {
           <Card>
             <CardHeader className="pb-2"><CardTitle>가맹점 목록</CardTitle></CardHeader>
             <CardContent className="space-y-2 p-3">
-              {monitoringMerchants.map((m) => {
+              {merchants.map((m) => {
                 const gc = riskGradeColor(m.riskGrade);
                 const mAlerts = alerts.filter((a) => a.merchantId === m.id);
                 const mTs = m.id === selected ? ts : undefined;

@@ -3,6 +3,6 @@ export { fetchCriReport } from './niceDnb';
 export { analyzeSite } from './siteAnalyzer';
 export { verifyStore } from './mapVerifier';
 export { recommendCollateral } from './policyEngine';
-export { assess } from './riskScorer';
-export { getAlerts, getTimeseries, getMerchantAlerts } from './monitoring';
+export { assess, getAssessment, getAssessments } from './riskScorer';
+export { getAlerts, getTimeseries, getMerchantAlerts, getMonitoringMerchants } from './monitoring';
 export { getMerchants, getMerchant } from './merchantService';

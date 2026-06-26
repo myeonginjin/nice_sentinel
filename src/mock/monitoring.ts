@@ -1,7 +1,6 @@
-import type { MonitoringAlert, MerchantTimeseries } from '@/types';
+import type { MonitoringAlert, MerchantTimeseries, MonitoringMerchant } from '@/types';
 
-// 사후 모니터링 Mock 가맹점 (계약 중인 가맹점)
-export const monitoringMerchants = [
+export const monitoringMerchants: MonitoringMerchant[] = [
   {
     id: 'MON-A',
     bizName: '서울상사',

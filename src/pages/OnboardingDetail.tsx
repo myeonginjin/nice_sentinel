@@ -9,9 +9,8 @@ import {
   riskGradeColor, riskGradeLabel, recommendationLabel, recommendationColor, gaugeColor, creditGradeLevel, formatLimit,
 } from '@/lib/gradeUtils';
 import {
-  getMerchant, fetchCreditReport, fetchCriReport, analyzeSite, verifyStore, recommendCollateral,
+  getMerchant, fetchCreditReport, fetchCriReport, analyzeSite, verifyStore, recommendCollateral, assess,
 } from '@/services';
-import { assessmentMock } from '@/mock';
 import type { Merchant, CreditReport, CriReport, SiteAnalysis, MapVerification, CollateralRecommendation, RiskAssessment } from '@/types';
 
 export default function OnboardingDetail() {
@@ -31,15 +30,27 @@ export default function OnboardingDetail() {
   useEffect(() => {
     if (!id) return;
     setLoading(true);
-    getMerchant(id).then((m) => {
+    getMerchant(id).then(async (m) => {
       if (!m) return;
       setMerchant(m);
-      fetchCreditReport(m.bizNo).then(setCredit);
-      fetchCriReport(m.bizNo).then(setCri);
-      if (m.type === 'ONLINE') analyzeSite(m.bizNo, m.siteUrl ?? '').then(setSite);
-      else verifyStore(m.bizNo, m.address).then(setMap);
-      recommendCollateral({ merchantId: m.id, type: m.type, grade: assessmentMock[m.id]?.grade ?? 'MEDIUM', recommendation: assessmentMock[m.id]?.recommendation ?? 'CONDITIONAL' }).then(setCollateral);
-      setAssessment(assessmentMock[m.id]);
+
+      const [assessmentResult] = await Promise.all([
+        assess(m),
+        fetchCreditReport(m.bizNo).then(setCredit),
+        fetchCriReport(m.bizNo).then(setCri),
+        m.type === 'ONLINE'
+          ? analyzeSite(m.bizNo, m.siteUrl ?? '').then(setSite)
+          : verifyStore(m.bizNo, m.address).then(setMap),
+      ]);
+
+      setAssessment(assessmentResult);
+      recommendCollateral({
+        merchantId: m.id,
+        type: m.type,
+        grade: assessmentResult.grade,
+        recommendation: assessmentResult.recommendation,
+      }).then(setCollateral);
+
       setLoading(false);
     });
   }, [id]);

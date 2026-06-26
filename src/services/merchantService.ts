@@ -1,15 +1,13 @@
 import type { Merchant } from '@/types';
-import { merchants } from '@/mock';
-import { mockDelay } from './_util';
+import { merchants as localMerchants } from '@/mock';
+import { api } from '@/api/client';
 
 export async function getMerchants(): Promise<Merchant[]> {
-  // TODO(prod): 내부 심사 DB 조회
-  //   GET /api/v1/merchants?status={status}&type={type}&page={page}&size={size}
-  return mockDelay(merchants);
+  return api.get<Merchant[]>('/v1/merchants').catch(() => localMerchants);
 }
 
 export async function getMerchant(id: string): Promise<Merchant | undefined> {
-  // TODO(prod): GET /api/v1/merchants/{id}
-  const found = merchants.find((m) => m.id === id);
-  return mockDelay(found);
+  return api
+    .get<Merchant>(`/v1/merchants/${id}`)
+    .catch(() => localMerchants.find((m) => m.id === id));
 }

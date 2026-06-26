@@ -10,19 +10,20 @@ import {
   reviewStatusLabel,
   reviewStatusColor,
 } from '@/lib/gradeUtils';
-import { getMerchants } from '@/services';
-import { assessmentMock } from '@/mock';
-import type { Merchant, MerchantType, ReviewStatus } from '@/types';
+import { getMerchants, getAssessments } from '@/services';
+import type { Merchant, MerchantType, ReviewStatus, RiskAssessment } from '@/types';
 
 export default function OnboardingList() {
   const nav = useNavigate();
   const [merchants, setMerchants] = useState<Merchant[]>([]);
+  const [assessments, setAssessments] = useState<Record<string, RiskAssessment>>({});
   const [typeFilter, setTypeFilter] = useState<MerchantType | 'ALL'>('ALL');
   const [statusFilter, setStatusFilter] = useState<ReviewStatus | 'ALL'>('ALL');
   const [query, setQuery] = useState('');
 
   useEffect(() => {
     getMerchants().then(setMerchants);
+    getAssessments().then(setAssessments);
   }, []);
 
   const filtered = merchants.filter((m) => {
@@ -77,7 +78,7 @@ export default function OnboardingList() {
             </thead>
             <tbody>
               {filtered.map((m) => {
-                const a = assessmentMock[m.id];
+                const a = assessments[m.id];
                 const gc = a ? riskGradeColor(a.grade) : null;
                 const rc = a ? recommendationColor(a.recommendation) : null;
                 return (
